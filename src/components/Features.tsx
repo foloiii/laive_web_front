@@ -8,49 +8,49 @@ const Features = () => {
   
   const features = [
     {
-      title: "Payment Automation",
-      description: "Automate payment processing and reconciliation to reduce manual errors and improve efficiency.",
-      expandedDescription: "Set up automated payment workflows with custom approval chains. Schedule recurring payments, automate invoice processing, and create conditional rules for different transaction types. Reduce manual intervention and ensure compliance with financial regulations.",
+      title: "Real-time AI Suggestions",
+      description: "Get intelligent question suggestions during live meetings based on conversation context.",
+      expandedDescription: "Our AI listens to your refinement sessions and provides contextually relevant questions in real-time. Never miss important technical details, edge cases, or user story clarifications. The AI learns from your team's patterns to provide increasingly accurate suggestions.",
       icon: (
         <Layers size={24} className="text-cosmic-accent" />
       )
     },
     {
-      title: "Real-time Analytics",
-      description: "Monitor financial performance with real-time dashboards and comprehensive reporting.",
-      expandedDescription: "Track key financial metrics with customizable dashboards. Monitor cash flow, payment volumes, and transaction success rates in real-time. Generate detailed reports for stakeholders and identify trends before they impact your business.",
+      title: "Automated Meeting Notes",
+      description: "Generate comprehensive meeting summaries and action items automatically.",
+      expandedDescription: "Focus on the conversation while our AI captures detailed notes, key decisions, and action items. Automatic transcription with speaker identification, key topic extraction, and formatted summaries ready for sharing with stakeholders.",
       icon: (
         <Grid3x3 size={24} className="text-cosmic-accent" />
       )
     },
     {
-      title: "Risk Management",
-      description: "Advanced fraud detection and risk assessment tools to protect your business.",
-      expandedDescription: "Utilize machine learning algorithms to detect suspicious transactions and prevent fraud. Set up custom risk rules, monitor transaction patterns, and receive instant alerts for unusual activity. Protect your business with enterprise-grade security measures.",
+      title: "Smart Question Library",
+      description: "Access curated question templates based on industry best practices.",
+      expandedDescription: "Leverage our extensive library of proven refinement questions categorized by user story type, complexity, and domain. Customizable templates that adapt to your team's specific needs and product context.",
       icon: (
         <LayoutDashboard size={24} className="text-cosmic-accent" />
       )
     },
     {
-      title: "Compliance Tools",
-      description: "Built-in compliance features to meet regulatory requirements effortlessly.",
-      expandedDescription: "Stay compliant with financial regulations across multiple jurisdictions. Automated KYC/AML checks, transaction monitoring, and regulatory reporting. Generate audit trails and maintain documentation to meet compliance standards.",
+      title: "Meeting Analytics",
+      description: "Track refinement effectiveness and identify improvement opportunities.",
+      expandedDescription: "Analyze meeting patterns, question effectiveness, and refinement quality over time. Identify bottlenecks, measure time savings, and optimize your refinement process with data-driven insights.",
       icon: (
         <ListCheck size={24} className="text-cosmic-accent" />
       )
     },
     {
-      title: "Multi-currency Support",
-      description: "Process payments in multiple currencies with real-time exchange rates.",
-      expandedDescription: "Accept and process payments in over 150 currencies with competitive exchange rates. Automatic currency conversion, hedging tools, and multi-currency accounting. Expand your business globally with seamless international payment processing.",
+      title: "Native Integrations",
+      description: "Seamlessly connect with your existing tools and workflows.",
+      expandedDescription: "Direct integration with Jira, Confluence, Teams, Outlook, and other popular tools. Automatically sync meeting outcomes, create tickets, and update documentation without context switching.",
       icon: (
         <Star size={24} className="text-cosmic-accent" />
       )
     },
     {
-      title: "API Integration",
-      description: "Powerful APIs for seamless integration with your existing financial systems.",
-      expandedDescription: "Connect with your ERP, accounting software, and banking systems through our comprehensive APIs. Real-time webhooks, detailed documentation, and SDKs for popular programming languages. Build custom integrations that fit your unique business needs.",
+      title: "Team Collaboration",
+      description: "Enhanced collaboration features for distributed and hybrid teams.",
+      expandedDescription: "Real-time collaboration tools including shared whiteboards, voting mechanisms, and consensus tracking. Perfect for remote teams who need structured refinement processes with clear outcomes.",
       icon: (
         <BookOpen size={24} className="text-cosmic-accent" />
       )
@@ -66,10 +66,10 @@ const Features = () => {
       <div className="max-w-7xl mx-auto space-y-12">
         <div className="text-center space-y-3 max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-medium tracking-tighter">
-            Everything your business needs
+            Everything your team needs for better refinements
           </h2>
-          <p className="text-cosmic-muted text-lg">
-            Comprehensive fintech solutions to streamline your financial operations and drive growth
+          <p className="text-muted-foreground text-lg">
+            Comprehensive AI-powered tools to enhance your refinement meetings and reduce preparation time
           </p>
         </div>
         

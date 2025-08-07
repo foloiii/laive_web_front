@@ -1,22 +1,25 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import ContactFormModal from './ContactFormModal';
 
 const Pricing = () => {
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [selectedReason, setSelectedReason] = useState('');
   const plans = [
     {
-      name: "Starter",
+      name: "Free",
       price: "Free",
-      description: "Perfect for small businesses starting their fintech journey",
+      description: "Perfect for small teams getting started with AI-powered refinements",
       features: [
-        "Up to 100 transactions/month",
-        "Basic payment processing",
-        "Standard reporting",
-        "Email support",
-        "Basic fraud protection"
+        "Up to 5 hours/month",
+        "Automatic AI question suggestions",
+        "Auto-generated meeting notes",
+        "Basic question library",
+        "Email support"
       ],
-      buttonText: "Get Started",
+      buttonText: "Start Free",
       buttonVariant: "outline",
       popular: false
     },
@@ -24,30 +27,30 @@ const Pricing = () => {
       name: "Professional",
       price: "$99",
       period: "per month",
-      description: "Ideal for growing businesses with higher transaction volumes",
+      description: "Ideal for growing teams with regular refinement sessions",
       features: [
-        "Up to 10,000 transactions/month",
-        "Advanced payment processing",
-        "Real-time analytics",
-        "Multi-currency support",
-        "Advanced fraud protection",
-        "API access",
+        "Up to 100 hours/month",
+        "Advanced AI question suggestions",
+        "Comprehensive meeting notes",
+        "Native integrations (Jira, Confluence, Teams, Outlook)",
+        "Custom question templates",
+        "Meeting analytics",
         "Priority support"
       ],
-      buttonText: "Start 14-day trial",
+      buttonText: "Start Professional",
       buttonVariant: "default",
       popular: true
     },
     {
       name: "Enterprise",
       price: "Custom",
-      description: "For large organizations with complex financial operations",
+      description: "For large organizations with complex refinement processes",
       features: [
-        "Unlimited transactions",
-        "Custom payment workflows",
-        "Advanced compliance tools",
-        "Dedicated infrastructure",
-        "White-label solutions",
+        "Unlimited meeting hours",
+        "Advanced team collaboration tools",
+        "Custom AI model training",
+        "Advanced analytics & reporting",
+        "SSO & enterprise security",
         "Dedicated account manager",
         "24/7 premium support"
       ],
@@ -62,10 +65,10 @@ const Pricing = () => {
       <div className="max-w-7xl mx-auto space-y-16">
         <div className="text-center space-y-4 max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-medium tracking-tighter text-foreground">
-            Transparent pricing for every stage
+            Transparent pricing for every team size
           </h2>
           <p className="text-muted-foreground text-lg">
-            Scale your financial operations with plans that grow with your business
+            Scale your refinement process with plans that grow with your team
           </p>
         </div>
         
@@ -111,6 +114,15 @@ const Pricing = () => {
               
               <div className="mt-6">
                 <Button 
+                  onClick={() => {
+                    const reasonMap: Record<string, string> = {
+                      "Start Free": "free-trial",
+                      "Start Professional": "professional-signup", 
+                      "Contact Sales": "enterprise-signup"
+                    };
+                    setSelectedReason(reasonMap[plan.buttonText] || "demonstration");
+                    setShowContactForm(true);
+                  }}
                   className={
                     plan.buttonVariant === "default" 
                       ? "w-full bg-primary text-primary-foreground hover:bg-primary/90" 
@@ -126,9 +138,25 @@ const Pricing = () => {
         </div>
         
         <div className="text-center text-muted-foreground">
-          Have questions? <a href="#" className="text-primary hover:underline">Contact our sales team</a>
+          Have questions? <a 
+            href="#" 
+            onClick={(e) => {
+              e.preventDefault();
+              setSelectedReason("demonstration");
+              setShowContactForm(true);
+            }}
+            className="text-primary hover:underline"
+          >
+            Contact our sales team
+          </a>
         </div>
       </div>
+      
+      <ContactFormModal 
+        isOpen={showContactForm} 
+        onClose={() => setShowContactForm(false)}
+        defaultReason={selectedReason}
+      />
     </section>
   );
 };
