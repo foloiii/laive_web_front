@@ -4,9 +4,9 @@ import React from 'react';
 const Testimonials = () => {
   const testimonials = [
     {
-      quote: "RefineAI reduced our refinement meeting time by 25% and we never miss important technical questions anymore. The AI suggestions are incredibly accurate.",
-      author: "Sarah Johnson",
-      position: "Product Owner at TechFlow",
+      quote: "Laive reduced our refinement meeting time by 25% and we never miss important technical questions anymore. The AI suggestions are incredibly accurate.",
+      author: "Valentin Bauer",
+      position: "Data Engineering Manager at Saint Laurent",
       avatar: "bg-cosmic-light/30"
     },
     {
@@ -22,25 +22,25 @@ const Testimonials = () => {
       avatar: "bg-cosmic-light/40"
     }
   ];
-  
+
   return (
     <section className="w-full py-20 px-6 md:px-12 bg-card relative overflow-hidden">
       {/* Background grid */}
       <div className="absolute inset-0 cosmic-grid opacity-20"></div>
-      
+
       <div className="max-w-7xl mx-auto space-y-16 relative z-10">
         <div className="text-center space-y-4 max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-medium tracking-tighter text-foreground">
             Trusted by product teams worldwide
           </h2>
           <p className="text-muted-foreground text-lg">
-            See how RefineAI transforms refinement meetings for agile teams
+            See how Laive transforms refinement meetings for agile teams
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <div 
+            <div
               key={index}
               className="p-6 rounded-xl border border-border bg-background/80 backdrop-blur-sm hover:border-border/60 transition-all duration-300"
             >

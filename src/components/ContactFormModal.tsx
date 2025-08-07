@@ -35,12 +35,12 @@ const ContactFormModal = ({ isOpen, onClose, defaultReason }: ContactFormModalPr
   const onSubmit = (data: ContactFormData) => {
     // Here you would typically send the data to your backend
     console.log('Form data:', data);
-    
+
     toast({
       title: "Contact request submitted",
       description: "Thank you! We'll get back to you within 24 hours.",
     });
-    
+
     reset();
     onClose();
   };
@@ -50,10 +50,10 @@ const ContactFormModal = ({ isOpen, onClose, defaultReason }: ContactFormModalPr
       <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-medium tracking-tighter">
-            Get Started with RefineAI
+            Get Started with Laive
           </DialogTitle>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-6">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -67,7 +67,7 @@ const ContactFormModal = ({ isOpen, onClose, defaultReason }: ContactFormModalPr
                 <p className="text-sm text-destructive">{errors.firstName.message}</p>
               )}
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="lastName">Last Name</Label>
               <Input
@@ -80,13 +80,13 @@ const ContactFormModal = ({ isOpen, onClose, defaultReason }: ContactFormModalPr
               )}
             </div>
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="email">Email Address</Label>
             <Input
               id="email"
               type="email"
-              {...register('email', { 
+              {...register('email', {
                 required: 'Email is required',
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -99,7 +99,7 @@ const ContactFormModal = ({ isOpen, onClose, defaultReason }: ContactFormModalPr
               <p className="text-sm text-destructive">{errors.email.message}</p>
             )}
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="companyName">Company Name</Label>
             <Input
@@ -111,7 +111,7 @@ const ContactFormModal = ({ isOpen, onClose, defaultReason }: ContactFormModalPr
               <p className="text-sm text-destructive">{errors.companyName.message}</p>
             )}
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="companySize">Company Size</Label>
             <Select onValueChange={(value) => setValue('companySize', value)}>
@@ -127,7 +127,7 @@ const ContactFormModal = ({ isOpen, onClose, defaultReason }: ContactFormModalPr
               </SelectContent>
             </Select>
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="reason">Reason for Contact</Label>
             <Select onValueChange={(value) => setValue('reason', value)} defaultValue={defaultReason}>
@@ -143,7 +143,7 @@ const ContactFormModal = ({ isOpen, onClose, defaultReason }: ContactFormModalPr
               </SelectContent>
             </Select>
           </div>
-          
+
           <div className="flex justify-end space-x-3 pt-4">
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel

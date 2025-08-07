@@ -7,147 +7,34 @@ import { Task } from './TaskCard';
 // Initial data for the task board
 const initialColumns: Column[] = [
   {
-    id: 'todo',
-    title: 'To Do',
+    id: 'live-questions',
+    title: 'Live questions',
     color: 'muted',
     tasks: [
       {
         id: 't1',
-        title: 'Update landing page hero section',
+        title: 'What is the expected delivery date for the new product?',
         description: 'Review new design mockups and update copy',
         tag: { color: 'purple', label: 'Design' },
         dueDate: 'May 20',
         assignees: 2,
-        progress: { completed: 3, total: 5 }
-      },
-      {
-        id: 't2',
-        title: 'Social media campaign planning',
-        description: 'Outline Q2 campaign goals and content calendar',
-        tag: { color: 'accent', label: 'Marketing' },
-        dueDate: 'May 22',
-        assignees: 1,
-        progress: { completed: 0, total: 4 }
-      },
-      {
-        id: 't3',
-        title: 'Set up automated testing',
-        description: 'Configure CI/CD pipeline for test automation',
-        tag: { color: 'blue', label: 'Development' },
-        dueDate: 'May 24',
-        assignees: 2,
-        progress: { completed: 0, total: 6 }
-      },
-      {
-        id: 't4',
-        title: 'Create brand style guide',
-        description: 'Document colors, typography, and UI components',
-        tag: { color: 'purple', label: 'Design' },
-        dueDate: 'May 25',
-        assignees: 1,
-        progress: { completed: 0, total: 3 }
+        progress: { completed: 0, total: 5 }
       }
     ]
   },
-  {
-    id: 'in-progress',
-    title: 'In Progress',
-    color: 'blue',
+    {
+    id: 'notes',
+    title: 'Live meeting',
+    color: 'muted',
     tasks: [
       {
-        id: 't5',
-        title: 'API integration with payment gateway',
-        description: 'Connect payment processor and test transactions',
-        tag: { color: 'blue', label: 'Development' },
-        dueDate: 'May 18',
-        assignees: 1,
-        progress: { completed: 2, total: 3 }
-      },
-      {
-        id: 't6',
-        title: 'SEO optimization',
-        description: 'Improve meta descriptions and keywords across site',
-        tag: { color: 'accent', label: 'Marketing' },
-        dueDate: 'May 19',
-        assignees: 2,
-        progress: { completed: 5, total: 8 }
-      },
-      {
-        id: 't7',
-        title: 'Mobile responsive design',
-        description: 'Optimize UI for tablets and mobile devices',
+        id: 't1',
+        title: 'What is the expected delivery date for the new product?',
+        description: 'Review new design mockups and update copy',
         tag: { color: 'purple', label: 'Design' },
-        dueDate: 'May 17',
-        assignees: 1,
-        progress: { completed: 3, total: 4 }
-      }
-    ]
-  },
-  {
-    id: 'in-review',
-    title: 'In Review',
-    color: 'amber',
-    tasks: [
-      {
-        id: 't8',
-        title: 'Email newsletter content',
-        description: 'Review draft and provide feedback',
-        tag: { color: 'accent', label: 'Marketing' },
-        dueDate: 'May 15',
-        assignees: 1,
-        progress: { completed: 4, total: 5 }
-      },
-      {
-        id: 't9',
-        title: 'User authentication system',
-        description: 'Code review for login and registration flows',
-        tag: { color: 'blue', label: 'Development' },
-        dueDate: 'May 16',
+        dueDate: 'May 20',
         assignees: 2,
-        progress: { completed: 6, total: 6 }
-      },
-      {
-        id: 't10',
-        title: 'Icon set redesign',
-        description: 'Review updated icon set for consistent branding',
-        tag: { color: 'purple', label: 'Design' },
-        dueDate: 'May 14',
-        assignees: 1,
-        progress: { completed: 12, total: 12 }
-      }
-    ]
-  },
-  {
-    id: 'completed',
-    title: 'Completed',
-    color: 'accent',
-    tasks: [
-      {
-        id: 't11',
-        title: 'Create user flow diagrams',
-        description: 'Document onboarding process for new users',
-        tag: { color: 'purple', label: 'Design' },
-        dueDate: 'May 10',
-        assignees: 1,
-        progress: { completed: 5, total: 5 }
-      },
-      {
-        id: 't12',
-        title: 'Setup analytics tracking',
-        description: 'Implement event tracking across main user flows',
-        tag: { color: 'blue', label: 'Development' },
-        dueDate: 'May 9',
-        assignees: 1,
-        progress: { completed: 4, total: 4 }
-      },
-      {
-        id: 't13',
-        title: 'Competitive analysis report',
-        description: 'Research competitors and document findings',
-        tag: { color: 'accent', label: 'Marketing' },
-        dueDate: 'May 8',
-        assignees: 2,
-        progress: { completed: 7, total: 7 }
+        progress: { completed: 0, total: 5 }
       }
     ]
   }
@@ -166,12 +53,12 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ className }) => {
   const handleTaskDragStart = (e: React.DragEvent, task: Task) => {
     e.dataTransfer.setData('taskId', task.id);
     setDraggedTask(task);
-    
+
     // Find source column
-    const sourceColumn = columns.find(col => 
+    const sourceColumn = columns.find(col =>
       col.tasks.some(t => t.id === task.id)
     );
-    
+
     if (sourceColumn) {
       setDragSourceColumn(sourceColumn.id);
       e.dataTransfer.setData('sourceColumnId', sourceColumn.id);
@@ -193,14 +80,14 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ className }) => {
 
   const handleDrop = (e: React.DragEvent, targetColumnId: string) => {
     e.preventDefault();
-    
+
     const taskId = e.dataTransfer.getData('taskId');
     const sourceColumnId = e.dataTransfer.getData('sourceColumnId');
-    
+
     if (!taskId || !sourceColumnId || sourceColumnId === targetColumnId) {
       return;
     }
-    
+
     // Update columns state
     const newColumns = columns.map(column => {
       // Remove task from source column
@@ -210,7 +97,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ className }) => {
           tasks: column.tasks.filter(task => task.id !== taskId)
         };
       }
-      
+
       // Add task to target column
       if (column.id === targetColumnId) {
         const taskToMove = columns.find(col => col.id === sourceColumnId)?.tasks.find(task => task.id === taskId);
@@ -221,12 +108,12 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ className }) => {
           };
         }
       }
-      
+
       return column;
     });
-    
+
     setColumns(newColumns);
-    
+
     // Show a toast notification
     const targetColumn = columns.find(col => col.id === targetColumnId);
     if (targetColumn && draggedTask) {

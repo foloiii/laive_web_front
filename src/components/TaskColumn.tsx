@@ -7,6 +7,7 @@ export interface Column {
   title: string;
   color: string;
   tasks: Task[];
+  width?: string;
 }
 
 interface TaskColumnProps {
@@ -29,28 +30,28 @@ const TaskColumn: React.FC<TaskColumnProps> = ({
   onStatusChange
 }) => {
   const [isOver, setIsOver] = useState(false);
-  
+
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     setIsOver(true);
     onDragOver(e);
   };
-  
+
   const handleDragLeave = (e: React.DragEvent) => {
     setIsOver(false);
     onDragLeave(e);
   };
-  
+
   const handleDrop = (e: React.DragEvent) => {
     setIsOver(false);
     onDrop(e, column.id);
   };
 
   return (
-    <div 
-      className={`flex flex-col w-72 min-w-72 rounded-lg border border-border backdrop-blur-sm transition-all duration-300 ${
+    <div
+      className={`flex flex-col rounded-lg border border-border backdrop-blur-sm transition-all duration-300 ${
         isOver ? 'column-highlight border-muted/50' : 'bg-card/50'
-      }`}
+      } ${column.id === 'live-questions' ? 'flex-[2]' : column.id === 'notes' ? 'flex-[1]' : 'flex-1'}`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
@@ -69,7 +70,7 @@ const TaskColumn: React.FC<TaskColumnProps> = ({
           </svg>
         </div>
       </div>
-      
+
       <div className="p-2 flex-1 space-y-2 overflow-auto">
         {column.tasks.map((task) => (
           <TaskCard
