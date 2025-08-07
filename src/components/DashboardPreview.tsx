@@ -1,9 +1,20 @@
 
 import React, { useState, useEffect } from 'react';
-import TaskBoard from './TaskBoard';
 
 const DashboardPreview = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+  const assistantQuestions = [
+    "What is the timeline of your project?",
+    "How can we access the API of the Customer service management?",
+    "Do you want your dashboard to have a filter on Customer age?",
+    "What are the main user personas for this feature?",
+    "Should we implement role-based access controls?",
+    "What's the expected data volume for this functionality?",
+    "Are there any compliance requirements we need to consider?",
+    "How should we handle error scenarios in the user flow?"
+  ];
 
   useEffect(() => {
     // Use IntersectionObserver to trigger animation when component enters viewport
@@ -25,6 +36,15 @@ const DashboardPreview = () => {
     };
   }, []);
 
+  // Rotate questions every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentQuestionIndex((prev) => (prev + 1) % assistantQuestions.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [assistantQuestions.length]);
+
   return (
     <section id="dashboard" className="w-full py-20 px-6 md:px-12">
       <div className="max-w-7xl mx-auto space-y-16">
@@ -34,10 +54,10 @@ const DashboardPreview = () => {
           }`}
         >
           <h2 className="text-3xl md:text-4xl font-medium tracking-tighter">
-            Intuitive task management interface
+            AI Assistant in Action
           </h2>
           <p className="text-cosmic-muted text-lg">
-            A powerful dashboard that adapts to how your team works
+            Watch how our AI suggests the perfect questions during your refinement meetings
           </p>
         </div>
         
@@ -73,78 +93,59 @@ const DashboardPreview = () => {
             
             {/* Dashboard Content */}
             <div className="flex h-[500px] overflow-hidden">
-              {/* Sidebar */}
-              <div className="w-64 border-r border-cosmic-light/10 p-4 space-y-4">
-                <div className="space-y-2">
-                  <div className="text-xs text-cosmic-muted uppercase">Navigation</div>
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-3 px-3 py-2 rounded-md bg-cosmic-light/10 text-white">
-                      <div className="h-3 w-3 rounded-sm bg-cosmic-accent"></div>
-                      <span>Board</span>
-                    </div>
-                    <div className="flex items-center gap-3 px-3 py-2 rounded-md text-cosmic-muted hover:bg-cosmic-light/5">
-                      <div className="h-3 w-3 rounded-sm bg-cosmic-muted/30"></div>
-                      <span>Timeline</span>
-                    </div>
-                    <div className="flex items-center gap-3 px-3 py-2 rounded-md text-cosmic-muted hover:bg-cosmic-light/5">
-                      <div className="h-3 w-3 rounded-sm bg-cosmic-muted/30"></div>
-                      <span>Calendar</span>
-                    </div>
-                    <div className="flex items-center gap-3 px-3 py-2 rounded-md text-cosmic-muted hover:bg-cosmic-light/5">
-                      <div className="h-3 w-3 rounded-sm bg-cosmic-muted/30"></div>
-                      <span>Files</span>
-                    </div>
-                  </div>
+              {/* Assistant Section */}
+              <div className="flex-1 p-6 flex flex-col">
+                <div className="mb-6">
+                  <h3 className="text-2xl font-semibold text-white mb-2">Assistant</h3>
+                  <p className="text-cosmic-muted">AI-powered questions to guide your refinement meetings</p>
                 </div>
                 
-                <div className="space-y-2 pt-4">
-                  <div className="text-xs text-cosmic-muted uppercase">Teams</div>
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-3 px-3 py-2 rounded-md text-cosmic-muted hover:bg-cosmic-light/5">
-                      <div className="h-3 w-3 rounded-full bg-cosmic-accent/80"></div>
-                      <span>Marketing</span>
+                {/* Current Question Display */}
+                <div className="flex-1 flex items-center justify-center">
+                  <div className="max-w-2xl w-full">
+                    <div className="bg-cosmic-light/5 border border-cosmic-light/20 rounded-xl p-8 text-center">
+                      <div className="mb-4">
+                        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cosmic-accent/20 mb-4">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-cosmic-accent"/>
+                            <path d="M12 17h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-cosmic-accent"/>
+                          </svg>
+                        </div>
+                      </div>
+                      
+                      <h4 className="text-lg font-medium text-white mb-6">Suggested Question</h4>
+                      
+                      <div 
+                        key={currentQuestionIndex}
+                        className="text-xl text-cosmic-accent font-medium leading-relaxed animate-fade-in"
+                      >
+                        "{assistantQuestions[currentQuestionIndex]}"
+                      </div>
+                      
+                      <div className="mt-8 flex items-center justify-center gap-2">
+                        {assistantQuestions.map((_, index) => (
+                          <div
+                            key={index}
+                            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                              index === currentQuestionIndex 
+                                ? 'bg-cosmic-accent' 
+                                : 'bg-cosmic-light/20'
+                            }`}
+                          />
+                        ))}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-3 px-3 py-2 rounded-md text-cosmic-muted hover:bg-cosmic-light/5">
-                      <div className="h-3 w-3 rounded-full bg-purple-400/80"></div>
-                      <span>Design</span>
-                    </div>
-                    <div className="flex items-center gap-3 px-3 py-2 rounded-md text-cosmic-muted hover:bg-cosmic-light/5">
-                      <div className="h-3 w-3 rounded-full bg-blue-400/80"></div>
-                      <span>Development</span>
+                    
+                    <div className="mt-6 text-center">
+                      <div className="text-sm text-cosmic-muted mb-2">
+                        Meeting status: <span className="text-cosmic-accent">Active</span>
+                      </div>
+                      <div className="text-xs text-cosmic-muted">
+                        Questions rotate automatically every 3 seconds
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              
-              {/* Main Content */}
-              <div className="flex-1 p-4">
-                {/* Board Header */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-medium">Tasks</h3>
-                    <span className="text-xs bg-cosmic-light/20 px-2 py-1 rounded-full text-cosmic-muted">23</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-2">
-                    <div className="h-8 w-8 rounded-md bg-cosmic-light/10 flex items-center justify-center text-cosmic-muted">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 12V12.01M8 12V12.01M16 12V12.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </div>
-                    <div className="h-8 w-8 rounded-md bg-cosmic-light/10 flex items-center justify-center text-cosmic-muted">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17 9L17 17H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M17 17L7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </div>
-                    <div className="h-8 px-3 rounded-md bg-cosmic-accent text-cosmic-darker flex items-center justify-center text-sm font-medium">
-                      New Task
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Kanban Board - replaced static implementation with TaskBoard component */}
-                <TaskBoard className="h-[400px]" />
               </div>
             </div>
           </div>
