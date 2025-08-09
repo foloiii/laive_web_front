@@ -1,60 +1,33 @@
 
 import React, { useState } from 'react';
 import TaskCard, { Task } from './TaskCard';
+import ChatTaskCard, { ChatTask } from './ChatTaskCard';
 
 export interface Column {
   id: string;
   title: string;
   color: string;
-  tasks: Task[];
-  width?: string;
+  tasks: (Task | ChatTask)[];
+  type?: 'task' | 'chat';
 }
 
 interface TaskColumnProps {
   column: Column;
-  onDrop: (e: React.DragEvent, columnId: string) => void;
-  onDragOver: (e: React.DragEvent) => void;
-  onDragLeave: (e: React.DragEvent) => void;
-  onTaskDragStart: (e: React.DragEvent, task: Task) => void;
-  onTaskDragEnd: () => void;
-  onStatusChange: (taskId: string, newStatus: string) => void;
+  onTypingComplete?: (taskId: string) => void;
 }
 
 const TaskColumn: React.FC<TaskColumnProps> = ({
   column,
-  onDrop,
-  onDragOver,
-  onDragLeave,
-  onTaskDragStart,
-  onTaskDragEnd,
-  onStatusChange
+  onTypingComplete
 }) => {
-  const [isOver, setIsOver] = useState(false);
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsOver(true);
-    onDragOver(e);
-  };
-
-  const handleDragLeave = (e: React.DragEvent) => {
-    setIsOver(false);
-    onDragLeave(e);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    setIsOver(false);
-    onDrop(e, column.id);
+  // Fonction pour vérifier si c'est une ChatTask
+  const isChatTask = (task: Task | ChatTask): task is ChatTask => {
+    return 'message' in task && 'author' in task;
   };
 
   return (
     <div
-      className={`flex flex-col rounded-lg border border-border backdrop-blur-sm transition-all duration-300 ${
-        isOver ? 'column-highlight border-muted/50' : 'bg-card/50'
-      } ${column.id === 'live-questions' ? 'flex-[2]' : column.id === 'notes' ? 'flex-[1]' : 'flex-1'}`}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
+      className={`flex flex-col rounded-lg border border-border backdrop-blur-sm transition-all duration-300 bg-card/50 ${column.id === 'live-questions' ? 'flex-[2]' : column.id === 'notes' ? 'flex-[1]' : 'flex-1'}`}
     >
       <div className="p-3 border-b border-border flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -71,15 +44,20 @@ const TaskColumn: React.FC<TaskColumnProps> = ({
         </div>
       </div>
 
-      <div className="p-2 flex-1 space-y-2 overflow-auto">
+      <div className="p-2 flex-1 space-y-2 overflow-visible">
         {column.tasks.map((task) => (
-          <TaskCard
-            key={task.id}
-            task={task}
-            onDragStart={onTaskDragStart}
-            onDragEnd={onTaskDragEnd}
-            onStatusChange={onStatusChange}
-          />
+          isChatTask(task) ? (
+            <ChatTaskCard
+              key={task.id}
+              task={task}
+              onTypingComplete={() => onTypingComplete?.(task.id)}
+            />
+          ) : (
+            <TaskCard
+              key={task.id}
+              task={task}
+            />
+          )
         ))}
       </div>
     </div>

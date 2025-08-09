@@ -32,17 +32,34 @@ const ContactFormModal = ({ isOpen, onClose, defaultReason }: ContactFormModalPr
     }
   }, [defaultReason, setValue]);
 
-  const onSubmit = (data: ContactFormData) => {
-    // Here you would typically send the data to your backend
-    console.log('Form data:', data);
+  const onSubmit = async (data: ContactFormData) => {
+    try {
+      // Submit to Formspree
+      const response = await fetch('https://formspree.io/f/mblkpgwd', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-    toast({
-      title: "Contact request submitted",
-      description: "Thank you! We'll get back to you within 24 hours.",
-    });
-
-    reset();
-    onClose();
+      if (response.ok) {
+        toast({
+          title: "Contact request submitted",
+          description: "Thank you! We'll get back to you within 24 hours.",
+        });
+        reset();
+        onClose();
+      } else {
+        throw new Error('Failed to submit form');
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was a problem submitting your request. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -54,12 +71,13 @@ const ContactFormModal = ({ isOpen, onClose, defaultReason }: ContactFormModalPr
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-6" action="https://formspree.io/f/mblkpgwd" method="POST">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="firstName">First Name</Label>
               <Input
                 id="firstName"
+                name="firstName"
                 {...register('firstName', { required: 'First name is required' })}
                 className={errors.firstName ? 'border-destructive' : ''}
               />
@@ -72,6 +90,7 @@ const ContactFormModal = ({ isOpen, onClose, defaultReason }: ContactFormModalPr
               <Label htmlFor="lastName">Last Name</Label>
               <Input
                 id="lastName"
+                name="lastName"
                 {...register('lastName', { required: 'Last name is required' })}
                 className={errors.lastName ? 'border-destructive' : ''}
               />
@@ -82,9 +101,10 @@ const ContactFormModal = ({ isOpen, onClose, defaultReason }: ContactFormModalPr
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">Email Address</Label>
+            <Label htmlFor="email">Email</Label>
             <Input
               id="email"
+              name="email"
               type="email"
               {...register('email', {
                 required: 'Email is required',
@@ -104,6 +124,7 @@ const ContactFormModal = ({ isOpen, onClose, defaultReason }: ContactFormModalPr
             <Label htmlFor="companyName">Company Name</Label>
             <Input
               id="companyName"
+              name="companyName"
               {...register('companyName', { required: 'Company name is required' })}
               className={errors.companyName ? 'border-destructive' : ''}
             />
@@ -115,15 +136,15 @@ const ContactFormModal = ({ isOpen, onClose, defaultReason }: ContactFormModalPr
           <div className="space-y-2">
             <Label htmlFor="companySize">Company Size</Label>
             <Select onValueChange={(value) => setValue('companySize', value)}>
-              <SelectTrigger>
+              <SelectTrigger name="companySize">
                 <SelectValue placeholder="Select company size" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="1-10">1-10 employees</SelectItem>
                 <SelectItem value="11-50">11-50 employees</SelectItem>
                 <SelectItem value="51-200">51-200 employees</SelectItem>
-                <SelectItem value="201-1000">201-1,000 employees</SelectItem>
-                <SelectItem value="1000+">1,000+ employees</SelectItem>
+                <SelectItem value="201-1000">201-1000 employees</SelectItem>
+                <SelectItem value="1000+">1000+ employees</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -131,7 +152,7 @@ const ContactFormModal = ({ isOpen, onClose, defaultReason }: ContactFormModalPr
           <div className="space-y-2">
             <Label htmlFor="reason">Reason for Contact</Label>
             <Select onValueChange={(value) => setValue('reason', value)} defaultValue={defaultReason}>
-              <SelectTrigger>
+              <SelectTrigger name="reason">
                 <SelectValue placeholder="Select reason" />
               </SelectTrigger>
               <SelectContent>
